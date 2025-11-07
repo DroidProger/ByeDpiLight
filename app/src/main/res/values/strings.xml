@@ -33,7 +33,7 @@
     <string name="hevsocks5">hev-socks5-tunnel on GitHub</string>
     <string name="hevsocks5Link" translatable="false">https://github.com/heiher/hev-socks5-tunnel</string>
     <string name="thisApp">This App on GitHub</string>
-    <string name="thisAppLink" translatable="false">https://github.com/DroidProger/ByeDpiLight-for-Android</string>
+    <string name="thisAppLink" translatable="false">https://github.com/DroidProger/ByeDpiLight</string>
     <string name="version">Version</string>
     <string name="build">Build</string>
 </resources>
