@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ByeDpiLight</string>
+    <string name="vpn_channel_name">ByeDpiVpn</string>
+    <string name="settings">Настройки</string>
+    <string name="connect">Подключить</string>
+    <string name="connected">Подключено</string>
+    <string name="disconnect">Отключить</string>
+    <string name="disconnected">Отключено</string>
+    <string name="notification_title">ByeDpiLight</string>
+    <string name="vpn_notification_content">VPN включен</string>
+    <string name="vpnPermissionDenied">Разрешение Vpn не проедоставлено</string>
+    <string name="putCMD">Командная строка</string>
+    <string name="saveLogs">Сохранить журнал</string>
+    <string name="about">О приложении</string>
+    <string name="logsFailed">Не удалось собрать журналы</string>
+    <string name="byedpiSettings">Настройки byedpi</string>
+    <string name="hevsocks5Settings">Настройки hev-socks5-tunnel</string>
+    <string name="requestText">Если вы используете параметр hosts в командной строке запросите разрешение на доступ ко всем файлам нажав кнопку ниже</string>
+    <string name="requestBtnText">Запросить разрешение</string>
+    <string name="hevsocks5Port">Порт</string>
+    <string name="hevsocks5PortHint">Должен совпадать с портом byedpi</string>
+    <string name="hevsocks5Dns">DNS</string>
+    <string name="ipv6enable">Включить IPv6</string>
+    <string name="accessPermDenied">Разрешение на доступ ко всем файлам не предоставлено</string>
+    <string name="accessPermGranted">Разрешение на доступ ко всем файла уже предоставлено</string>
+    <string name="warning">Предупреждение</string>
+    <string name="warnText">Сначала отключите vpn!</string>
+    <string name="aboutText">Это приложение надстройка над byedpi. Оно основано на коде ByeDPIAndroid и использует hev-socks5-tunnel как впн туннель к byedpi</string>
+    <string name="byedpi" >byedpi на GitHub</string>
+    <string name="byedpiLink" translatable="false">https://github.com/hufrea/byedpi</string>
+    <string name="byedpiAndroidLink" translatable="false">https://github.com/dovecoteescapee/ByeDPIAndroid</string>
+    <string name="byedpiAndroid">ByeDPIAndroid на GitHub</string>
+    <string name="hevsocks5">hev-socks5-tunnel на GitHub</string>
+    <string name="hevsocks5Link" translatable="false">https://github.com/heiher/hev-socks5-tunnel</string>
+    <string name="thisApp">Это приложение на GitHub</string>
+    <string name="thisAppLink" translatable="false">https://github.com/DroidProger/ByeDpiLight-for-Android</string>
+    <string name="version">Версия</string>
+    <string name="build">Сборка</string>
+</resources>
