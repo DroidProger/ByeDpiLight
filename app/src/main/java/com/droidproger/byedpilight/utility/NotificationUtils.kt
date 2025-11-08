@@ -39,7 +39,7 @@ fun createConnectionNotification(
     service: Class<*>,
 ): Notification =
     NotificationCompat.Builder(context, channelId)
-        .setSmallIcon(R.drawable.ic_launcher_foreground)
+        .setSmallIcon(R.drawable.ic_notification)
         .setSilent(true)
             .setContentTitle(context.getString(title))
             .setContentText(context.getString(content))
