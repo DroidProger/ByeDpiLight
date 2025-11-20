@@ -19,3 +19,4 @@ APP_ABI := armeabi-v7a arm64-v8a x86 x86_64
 APP_CFLAGS := -O3 -DPKGNAME=com/droidproger/byedpilight/core
 APP_CPPFLAGS := -O3 -std=c++11
 NDK_TOOLCHAIN_VERSION := clang
+APP_SUPPORT_FLEXIBLE_PAGE_SIZES := true

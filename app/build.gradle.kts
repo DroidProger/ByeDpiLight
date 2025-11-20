@@ -1,5 +1,3 @@
-import com.android.tools.build.jetifier.core.type.PackageName
-
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -14,8 +12,8 @@ android {
         applicationId = "com.droidproger.byedpilight"
         minSdk = 24
         targetSdk = 36
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 2
+        versionName = "1.1"
         setProperty("archivesBaseName","ByeDpiLight-$versionName")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -51,6 +49,7 @@ android {
         cmake {
             path = file("src/main/cpp/CMakeLists.txt")
             version = "3.22.1"
+            //arguments += "-DANDROID_PAGE_SIZE=16384"
         }
     }
     buildFeatures {
@@ -65,6 +64,14 @@ android {
         // Disables dependency metadata when building Android App Bundles.
         includeInBundle = false
     }
+// ---------------
+    packaging {
+        jniLibs {
+            useLegacyPackaging = true
+        }
+    }
+    //ndkVersion = "27.0.12077973" // e.g.,  ndkVersion "21.3.6528147"
+//------------
 }
 
 dependencies {
@@ -87,6 +94,15 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+    // ------------ TV --------------
+    val composeBom = platform("androidx.compose:compose-bom:2025.10.01")
+    implementation(composeBom)
+    // General compose dependencies.
+    implementation("androidx.activity:activity-compose:1.11.0")
+    implementation("androidx.compose.ui:ui-tooling-preview")
+    debugImplementation("androidx.compose.ui:ui-tooling")
+    // Compose for TV dependencies.
+    implementation("androidx.tv:tv-material:1.0.0")
 }
 
 tasks.register<Exec>("runNdkBuild") {

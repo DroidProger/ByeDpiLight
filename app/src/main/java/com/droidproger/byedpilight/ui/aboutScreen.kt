@@ -34,8 +34,6 @@ import com.droidproger.byedpilight.ui.theme.ComposeAppTheme
 @Composable
 fun AboutScreen(){
     Dialog(onDismissRequest = { dataModel.showAbout = false}) {
-        val version = BuildConfig.VERSION_NAME
-        val build = BuildConfig.VERSION_CODE
         Card(
             modifier = Modifier
                 .fillMaxWidth()

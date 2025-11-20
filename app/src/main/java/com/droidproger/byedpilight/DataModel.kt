@@ -10,6 +10,8 @@ import com.droidproger.byedpilight.data.ServiceStatus
 
 class DataModel: ViewModel() {
 
+
+    var textMinLines: Int = 3
     var isCmdEdit by mutableStateOf(false)
     var cmdLine by mutableStateOf("")
     var isPortEdit by mutableStateOf(false)

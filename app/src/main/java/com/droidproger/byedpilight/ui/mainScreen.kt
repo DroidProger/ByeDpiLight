@@ -1,6 +1,7 @@
 package com.droidproger.byedpilight.ui
 
 import android.app.Activity.RESULT_OK
+import android.content.Context
 import android.content.Intent
 import android.net.VpnService
 import android.util.Log
@@ -14,7 +15,6 @@ import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeContent
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Settings
@@ -43,8 +43,8 @@ import com.droidproger.byedpilight.data.ServiceStatus
 import com.droidproger.byedpilight.dataModel
 import com.droidproger.byedpilight.services.ServiceManager
 import com.droidproger.byedpilight.ui.theme.ComposeAppTheme
+import com.droidproger.byedpilight.utility.collectLogs
 import java.io.IOException
-import kotlin.text.toByteArray
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -53,13 +53,7 @@ fun MainScreen(navController: NavController){
     val TAG = "DpiApp"
     var menuExpanded by remember { mutableStateOf(false) }
     val context = LocalContext.current
-    val vpnRegister = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            if (it.resultCode == RESULT_OK) {
-                ServiceManager.start(context)
-            } else {
-                Toast.makeText(context, R.string.vpnPermissionDenied, Toast.LENGTH_SHORT).show()
-            }
-        }
+
     val logsRegister =
         rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {
                 val logs = collectLogs()
@@ -148,23 +142,7 @@ fun MainScreen(navController: NavController){
             Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ){
-            ElevatedButton(
-                onClick = {
-                    if (dataModel.serviceStatus == ServiceStatus.Connected){
-                        ServiceManager.stop(context)
-                    }else{
-                        val intentPrepare = VpnService.prepare(context)
-                        if (intentPrepare != null) {
-                            vpnRegister.launch(intentPrepare)
-                        } else {
-                            ServiceManager.start(context)//, Mode.VPN
-                        }
-                    }
-                },
-            ){
-                Text ( stringResource(dataModel.btnTextRes()))
-            }
-            Text ( stringResource(dataModel.statusTextRes()))
+            MainButtons(context)
         }
     }
     if (dataModel.showAbout){
@@ -172,16 +150,37 @@ fun MainScreen(navController: NavController){
     }
 }
 
-private fun collectLogs(): String? =
-    try {
-        Runtime.getRuntime()
-            .exec("logcat *:D -d")
-            .inputStream.bufferedReader()
-            .use { it.readText() }
-    } catch (e: Exception) {
-        Log.e("DpiApp", "Failed to collect logs", e)
-        null
+@Composable
+fun MainButtons(context: Context){
+    val vpnRegister = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        if (it.resultCode == RESULT_OK) {
+            ServiceManager.start(context)
+        } else {
+            Toast.makeText(context, R.string.vpnPermissionDenied, Toast.LENGTH_SHORT).show()
+        }
     }
+
+        ElevatedButton(
+            onClick = {
+                if (dataModel.serviceStatus == ServiceStatus.Connected){
+                    ServiceManager.stop(context)
+                }else{
+                    val intentPrepare = VpnService.prepare(context)
+                    if (intentPrepare != null) {
+                        vpnRegister.launch(intentPrepare)
+                    } else {
+                        ServiceManager.start(context)//, Mode.VPN
+                    }
+                }
+            },
+        ){
+            Text ( stringResource(dataModel.btnTextRes()))
+        }
+        Text ( stringResource(dataModel.statusTextRes()))
+
+}
+
+
 
 @Preview(showBackground = true)
 @Composable

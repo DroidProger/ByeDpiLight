@@ -1,29 +1,22 @@
 package com.droidproger.byedpilight
 
+import android.content.pm.PackageManager.FEATURE_LEANBACK
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.navigationBars
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeContent
-import androidx.compose.foundation.layout.statusBars
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-//import com.alexandernfdv.dpiapp.data.Mode
 import com.droidproger.byedpilight.ui.MainScreen
 import com.droidproger.byedpilight.ui.SettingsScreen
+import com.droidproger.byedpilight.ui.TvScreen
 import com.droidproger.byedpilight.ui.theme.ComposeAppTheme
+import com.droidproger.byedpilight.ui.theme.TvComposeTheme
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
@@ -42,15 +35,19 @@ class MainActivity : ComponentActivity() {
         }
         enableEdgeToEdge()
         setContent {
-            ComposeAppTheme {
-                //val topPadding = WindowInsets.statusBars.asPaddingValues().calculateTopPadding()
-                //val bottomPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
-                //val safeContent = WindowInsets.safeContent.asPaddingValues()
-                //Scaffold(modifier = Modifier.fillMaxSize().padding(safeContent)) { //innerPadding ->
+            if (packageManager.hasSystemFeature(FEATURE_LEANBACK)){
+                TvComposeTheme {
+                    CreateTvUi(
+                        prefStore
+                    )
+                }
+            }else{
+                ComposeAppTheme {
+                    dataModel.textMinLines = 5
                     CreateUi(
                         prefStore
                     )
-                //}
+                }
             }
         }
     }
@@ -70,6 +67,10 @@ fun CreateUi(prefStore: PrefStore) {//,activity: Activity
     }
 }
 
+@Composable
+fun CreateTvUi(prefStore: PrefStore){
+    TvScreen(prefStore)
+}
 
 @Preview(showBackground = true)
 @Composable

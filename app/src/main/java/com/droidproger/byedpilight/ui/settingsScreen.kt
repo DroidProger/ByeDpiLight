@@ -5,6 +5,7 @@ import android.Manifest
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.Settings
@@ -30,6 +31,7 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -70,16 +72,6 @@ var tempDns = dataModel.dnsIp
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(navController: NavController, prefStore: PrefStore){
-    val context = LocalContext.current
-    val scope = rememberCoroutineScope()
-    val accessRegister = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()){
-        if (it.resultCode == RESULT_OK) {
-            
-        } else {
-            Toast.makeText(context, R.string.accessPermDenied, Toast.LENGTH_SHORT).show()
-        }
-    }
-    val colorScheme = MaterialTheme.colorScheme
     val bottomPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
     Column (
         Modifier
@@ -105,247 +97,310 @@ fun SettingsScreen(navController: NavController, prefStore: PrefStore){
             }
 
         )
-        Column(
-            Modifier
-                .wrapContentSize()
-                .verticalScroll(rememberScrollState())
-        ) {
-
-
-            Row(
-                Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center,
-                Alignment.CenterVertically
-            ) {
-                Canvas(
-                    Modifier
-                        //.size(width = 100.dp, height = 20.dp)
-                        .weight(0.2f)
-                        .padding(start = 10.dp)
-                ) {
-                    val height = size.height
-                    val width = size.width
-                    drawLine(
-                        start = Offset(x = 0f, y = height / 2),
-                        end = Offset(x = width, y = height / 2),
-                        color = colorScheme.primary,
-                        strokeWidth = 6f,
-                        alpha = 0.5f
-                    )
-                }
-                Text(
-                    text = stringResource(R.string.byedpiSettings),
-                    Modifier
-                        .padding(start = 10.dp, top = 10.dp, end = 10.dp, bottom = 10.dp)
-                        .weight(0.8f)
-                        .wrapContentSize(),
-                    color = colorScheme.primary, textAlign = TextAlign.Center
-                )
-                Canvas(
-                    Modifier
-                        //.size(width = 100.dp, height = 20.dp)
-                        .weight(0.2f)
-                        .padding(end = 10.dp)
-                ) {
-                    val height = size.height
-                    val width = size.width
-                    drawLine(
-                        start = Offset(x = 0f, y = height / 2),
-                        end = Offset(x = width, y = height / 2),
-                        color = colorScheme.primary,
-                        strokeWidth = 6f,
-                        alpha = 0.5f
-                    )
-                }
-            }
-
-            Row(
-                Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center,
-                Alignment.CenterVertically
-            ) {
-                Text(
-                    stringResource(R.string.putCMD),
-                    Modifier
-                        .weight(1f)
-                        .padding(10.dp, 0.dp, 0.dp, 0.dp)
-                )
-                SetButtons(prefStore, 1, scope)
-            }
-            val text = remember { mutableStateOf(tempCmdLine) }//
-            TextField(
-                value = text.value,
-                onValueChange = {
-                    tempCmdLine = it
-                    text.value = it//tempCmdLine
-                },
-                Modifier
-                    .padding(8.dp)
-                    .fillMaxWidth(),
-                enabled = dataModel.isCmdEdit,
-                minLines = 5
-            )
-            Text(
-                stringResource(R.string.requestText),
-                Modifier//.weight(1f)
-                    .padding(10.dp, 10.dp, 10.dp, 10.dp)
-            )
-            ElevatedButton(
-                onClick = {
-                    val storageManager: Boolean
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                        storageManager = Environment.isExternalStorageManager()
-                    } else {
-                        storageManager = (ContextCompat.checkSelfPermission(
-                            context,
-                            Manifest.permission.READ_EXTERNAL_STORAGE
-                        ) == PackageManager.PERMISSION_GRANTED)
-                    }
-                    if (storageManager) {
-                        Toast.makeText(context, R.string.accessPermGranted, Toast.LENGTH_SHORT)
-                            .show()
-                    } else {
-                        val intent =
-                            Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION)
-                        accessRegister.launch(intent)
-                    }
-                },
-                Modifier
-                    .fillMaxWidth()
-                    .padding(10.dp, 0.dp, 10.dp, 0.dp)
-            ) {
-                Text(
-                    stringResource(R.string.requestBtnText)
-                )
-            }
-            Row(
-                Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center,
-                Alignment.CenterVertically
-            ) {
-                Canvas(
-                    Modifier
-                        //.size(width = 100.dp, height = 20.dp)
-                        .weight(0.2f)
-                        .padding(start = 10.dp)
-                ) {
-                    val height = size.height
-                    val width = size.width
-                    drawLine(
-                        start = Offset(x = 0f, y = height / 2),
-                        end = Offset(x = width, y = height / 2),
-                        color = colorScheme.primary,
-                        strokeWidth = 6f,
-                        alpha = 0.5f
-                    )
-                }
-                Text(
-                    text = stringResource(R.string.hevsocks5Settings),
-                    Modifier
-                        .padding(start = 10.dp, top = 10.dp, end = 10.dp, bottom = 10.dp)
-                        .weight(0.8f)
-                        .wrapContentSize(),
-                    color = colorScheme.primary, textAlign = TextAlign.Center
-                )
-                Canvas(
-                    Modifier
-                        //.size(width = 100.dp, height = 20.dp)
-                        .weight(0.2f)
-                        .padding(end = 10.dp)
-                ) {
-                    val height = size.height
-                    val width = size.width
-                    drawLine(
-                        start = Offset(x = 0f, y = height / 2),
-                        end = Offset(x = width, y = height / 2),
-                        color = colorScheme.primary,
-                        strokeWidth = 6f,
-                        alpha = 0.5f
-                    )
-                }
-            }
-            Row(
-                Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center,
-                Alignment.CenterVertically
-            ) {
-                Text(
-                    stringResource(R.string.hevsocks5Port),
-                    Modifier
-                        //.weight(0.1f)
-                        .padding(10.dp, 0.dp, 10.dp, 0.dp)
-                )
-                val text = remember { mutableStateOf(tempProxyPort.toString()) }//
-                TextField(
-                    value = text.value,
-                    onValueChange = {
-                        text.value = it
-                        if (it.length > 0) {
-                            tempProxyPort = it.toInt()
-                        }
-                    },
-                    Modifier
-                        .weight(0.9f)
-                        .padding(8.dp),
-                    placeholder = { Text(stringResource(R.string.hevsocks5PortHint)) },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                    enabled = dataModel.isPortEdit,
-                )
-                SetButtons(prefStore, 2, scope)
-            }
-            Row(
-                Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center,
-                Alignment.CenterVertically
-            ) {
-                Text(
-                    stringResource(R.string.hevsocks5Dns),
-                    Modifier
-                        //.weight(0.1f)
-                        .padding(10.dp, 0.dp, 10.dp, 0.dp)
-                )
-                val text = remember { mutableStateOf(tempDns) }//
-                TextField(
-                    value = text.value,
-                    onValueChange = {
-                        tempDns = it
-                        text.value = it
-                    },
-                    Modifier
-                        .weight(0.9f)
-                        .padding(8.dp),
-                    enabled = dataModel.isDnsEdit,
-                )
-                SetButtons(prefStore, 3, scope)
-            }
-            Row(
-                Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center,
-                Alignment.CenterVertically
-            ) {
-                Text(
-                    stringResource(R.string.ipv6enable),
-                    Modifier
-                        .weight(1f)
-                        .padding(10.dp, 10.dp, 10.dp, 10.dp)
-                )
-                Switch(
-                    checked = dataModel.ipv6enabled,
-                    onCheckedChange = {
-                        dataModel.ipv6enabled = it
-                        scope.launch {
-                            prefStore.saveIpv6enable(it)
-                        }
-                    },
-                    Modifier
-                        .padding(10.dp, 10.dp, 10.dp, 10.dp)
-                )
-            }
-
-        }
+        Settings(prefStore)
         if (dataModel.showWarn) {
             StopServiceDialog()
         }
+    }
+}
+
+@Composable
+fun Settings(prefStore: PrefStore){
+    val scope = rememberCoroutineScope()
+    val colorScheme = MaterialTheme.colorScheme
+    Column(
+        Modifier
+            .wrapContentSize()
+            .verticalScroll(rememberScrollState())
+    ) {
+        Row(
+            Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center,
+            Alignment.CenterVertically
+        ) {
+            Canvas(
+                Modifier
+                    //.size(width = 100.dp, height = 20.dp)
+                    .weight(0.2f)
+                    .padding(start = 10.dp)
+            ) {
+                val height = size.height
+                val width = size.width
+                drawLine(
+                    start = Offset(x = 0f, y = height / 2),
+                    end = Offset(x = width, y = height / 2),
+                    color = colorScheme.primary,
+                    strokeWidth = 6f,
+                    alpha = 0.5f
+                )
+            }
+            Text(
+                text = stringResource(R.string.byedpiSettings),
+                Modifier
+                    .padding(start = 10.dp, top = 10.dp, end = 10.dp, bottom = 10.dp)
+                    .weight(0.8f)
+                    .wrapContentSize(),
+                color = colorScheme.primary, textAlign = TextAlign.Center
+            )
+            Canvas(
+                Modifier
+                    //.size(width = 100.dp, height = 20.dp)
+                    .weight(0.2f)
+                    .padding(end = 10.dp)
+            ) {
+                val height = size.height
+                val width = size.width
+                drawLine(
+                    start = Offset(x = 0f, y = height / 2),
+                    end = Offset(x = width, y = height / 2),
+                    color = colorScheme.primary,
+                    strokeWidth = 6f,
+                    alpha = 0.5f
+                )
+            }
+        }
+        ByeDpiSettings(prefStore,scope)
+// ----------------
+        Row(
+            Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center,
+            Alignment.CenterVertically
+        ) {
+            Canvas(
+                Modifier
+                    //.size(width = 100.dp, height = 20.dp)
+                    .weight(0.2f)
+                    .padding(start = 10.dp)
+            ) {
+                val height = size.height
+                val width = size.width
+                drawLine(
+                    start = Offset(x = 0f, y = height / 2),
+                    end = Offset(x = width, y = height / 2),
+                    color = colorScheme.primary,
+                    strokeWidth = 6f,
+                    alpha = 0.5f
+                )
+            }
+            Text(
+                text = stringResource(R.string.hevsocks5Settings),
+                Modifier
+                    .padding(start = 10.dp, top = 10.dp, end = 10.dp, bottom = 10.dp)
+                    .weight(0.8f)
+                    .wrapContentSize(),
+                color = colorScheme.primary, textAlign = TextAlign.Center
+            )
+            Canvas(
+                Modifier
+                    //.size(width = 100.dp, height = 20.dp)
+                    .weight(0.2f)
+                    .padding(end = 10.dp)
+            ) {
+                val height = size.height
+                val width = size.width
+                drawLine(
+                    start = Offset(x = 0f, y = height / 2),
+                    end = Offset(x = width, y = height / 2),
+                    color = colorScheme.primary,
+                    strokeWidth = 6f,
+                    alpha = 0.5f
+                )
+            }
+        }
+        Tun2socksSettings(prefStore,scope)
+    }
+}
+
+@Composable
+fun ByeDpiSettings(prefStore: PrefStore, scope: CoroutineScope){
+    val context = LocalContext.current
+    val permissionLauncher= rememberLauncherForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ){
+        if (it.resultCode != RESULT_OK) {// granted
+            Toast.makeText(context, R.string.accessPermDenied, Toast.LENGTH_SHORT).show()
+        }
+    }
+    val requestPermissionsLauncher = rememberLauncherForActivityResult(
+         ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissions ->
+        val granted = permissions.values.all { it }
+        if (!granted) {
+            Toast.makeText(context, R.string.accessPermDenied, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    Row(
+        Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.Center,
+        Alignment.CenterVertically
+    ) {
+        Text(
+            stringResource(R.string.putCMD),
+            Modifier
+                .weight(1f)
+                .padding(10.dp, 0.dp, 0.dp, 0.dp)
+        )
+        SetButtons(prefStore, 1, scope)
+    }
+    val text = remember { mutableStateOf(tempCmdLine) }//
+    TextField(
+        value = text.value,
+        onValueChange = {
+            tempCmdLine = it
+            text.value = it//tempCmdLine
+        },
+        Modifier
+            .padding(8.dp)
+            .fillMaxWidth(),
+        enabled = dataModel.isCmdEdit,
+        minLines = dataModel.textMinLines
+    )
+    Text(
+        stringResource(R.string.requestText),
+        Modifier//.weight(1f)
+            .padding(10.dp, 10.dp, 10.dp, 10.dp)
+    )
+    ElevatedButton(
+        onClick = {
+            val storageManager: Boolean
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                storageManager = Environment.isExternalStorageManager()
+            } else {
+                storageManager = (ContextCompat.checkSelfPermission(
+                    context,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                ) == PackageManager.PERMISSION_GRANTED)
+            }
+            if (storageManager) {
+                Toast.makeText(context, R.string.accessPermGranted, Toast.LENGTH_SHORT)
+                    .show()
+            } else {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
+                    intent.data = Uri.fromParts("package", context.packageName, null)
+                    try{
+                        permissionLauncher.launch(intent)//
+                    }catch (e: Exception){
+                        val intent_ = Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION)
+                        try{
+                            permissionLauncher.launch(intent_)//
+                        }catch (e: Exception){
+                            val intent_ = Intent(Settings.ACTION_APPLICATION_SETTINGS)
+                            intent.data = Uri.fromParts("package", context.packageName, null)
+                            try{
+                                permissionLauncher.launch(intent_)//
+                            }catch (e: Exception){
+
+                                Toast.makeText(context, context.getString(R.string.accessPermError) +" - "+ e.toString(), Toast.LENGTH_SHORT)
+                                    .show()
+                            }
+                        }
+                    }
+                }else{
+                    try{
+                        requestPermissionsLauncher.launch(
+                            arrayOf(
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                Manifest.permission.READ_EXTERNAL_STORAGE
+                            )
+                        )
+                    }catch (e: Exception){
+                        Toast.makeText(context, context.getString(R.string.accessPermError) +" - "+ e.toString(), Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                }
+            }
+        },
+        Modifier
+            .fillMaxWidth()
+            .padding(10.dp, 0.dp, 10.dp, 0.dp)
+    ) {
+        Text(
+            stringResource(R.string.requestBtnText)
+        )
+    }
+}
+
+@Composable
+fun Tun2socksSettings(prefStore: PrefStore, scope: CoroutineScope){
+
+    Row(
+        Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.Center,
+        Alignment.CenterVertically
+    ) {
+        Text(
+            stringResource(R.string.hevsocks5Port),
+            Modifier
+                //.weight(0.1f)
+                .padding(10.dp, 0.dp, 10.dp, 0.dp)
+        )
+        val text = remember { mutableStateOf(tempProxyPort.toString()) }//
+        TextField(
+            value = text.value,
+            onValueChange = {
+                text.value = it
+                if (it.length > 0) {
+                    tempProxyPort = it.toInt()
+                }
+            },
+            Modifier
+                .weight(0.9f)
+                .padding(8.dp),
+            placeholder = { Text(stringResource(R.string.hevsocks5PortHint)) },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            enabled = dataModel.isPortEdit,
+        )
+        SetButtons(prefStore, 2, scope)
+    }
+    Row(
+        Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.Center,
+        Alignment.CenterVertically
+    ) {
+        Text(
+            stringResource(R.string.hevsocks5Dns),
+            Modifier
+                //.weight(0.1f)
+                .padding(10.dp, 0.dp, 10.dp, 0.dp)
+        )
+        val text = remember { mutableStateOf(tempDns) }//
+        TextField(
+            value = text.value,
+            onValueChange = {
+                tempDns = it
+                text.value = it
+            },
+            Modifier
+                .weight(0.9f)
+                .padding(8.dp),
+            enabled = dataModel.isDnsEdit,
+        )
+        SetButtons(prefStore, 3, scope)
+    }
+    Row(
+        Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.Center,
+        Alignment.CenterVertically
+    ) {
+        Text(
+            stringResource(R.string.ipv6enable),
+            Modifier
+                .weight(1f)
+                .padding(10.dp, 10.dp, 10.dp, 10.dp)
+        )
+        Switch(
+            checked = dataModel.ipv6enabled,
+            onCheckedChange = {
+                dataModel.ipv6enabled = it
+                scope.launch {
+                    prefStore.saveIpv6enable(it)
+                }
+            },
+            Modifier
+                .padding(10.dp, 10.dp, 10.dp, 10.dp)
+        )
     }
 }
 

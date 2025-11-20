@@ -4,7 +4,7 @@ project(byedpi_native)
 
 file(GLOB BYE_DPI_SRC byedpi/*.c)
 list(REMOVE_ITEM BYE_DPI_SRC ${CMAKE_CURRENT_SOURCE_DIR}/byedpi/win_service.c)
-
+add_link_options(-Wl,-z,max-page-size=16384)
 add_library(byedpi SHARED ${BYE_DPI_SRC} native-lib.c utils.c)
 target_include_directories(byedpi PRIVATE byedpi)
 

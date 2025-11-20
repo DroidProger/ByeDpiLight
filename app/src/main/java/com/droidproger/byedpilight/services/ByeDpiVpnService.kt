@@ -8,7 +8,6 @@ import android.os.Build
 import android.os.ParcelFileDescriptor
 import android.util.Log
 import androidx.lifecycle.lifecycleScope
-
 import com.droidproger.byedpilight.MainActivity
 import com.droidproger.byedpilight.R
 import com.droidproger.byedpilight.core.ByeDpiProxy
@@ -16,9 +15,9 @@ import com.droidproger.byedpilight.core.TProxyService
 import com.droidproger.byedpilight.data.START_ACTION
 import com.droidproger.byedpilight.data.STOP_ACTION
 import com.droidproger.byedpilight.data.ServiceStatus
-import com.droidproger.byedpilight.utility.registerNotificationChannel
 import com.droidproger.byedpilight.dataModel
 import com.droidproger.byedpilight.utility.createConnectionNotification
+import com.droidproger.byedpilight.utility.registerNotificationChannel
 import com.droidproger.byedpilight.utility.shellSplit
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job

@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import androidx.core.content.ContextCompat
-//import com.alexandernfdv.dpiapp.data.Mode
 import com.droidproger.byedpilight.data.START_ACTION
 import com.droidproger.byedpilight.data.STOP_ACTION
 

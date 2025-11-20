@@ -24,6 +24,7 @@
     <string name="ipv6enable">Включить IPv6</string>
     <string name="accessPermDenied">Разрешение на доступ ко всем файлам не предоставлено</string>
     <string name="accessPermGranted">Разрешение на доступ ко всем файла уже предоставлено</string>
+    <string name="accessPermError">Ошибка при запросе разрешения</string>
     <string name="warning">Предупреждение</string>
     <string name="warnText">Сначала отключите vpn!</string>
     <string name="aboutText">Это приложение надстройка над byedpi. Оно основано на коде ByeDPIAndroid и использует hev-socks5-tunnel как впн туннель к byedpi</string>
@@ -34,7 +35,7 @@
     <string name="hevsocks5">hev-socks5-tunnel на GitHub</string>
     <string name="hevsocks5Link" translatable="false">https://github.com/heiher/hev-socks5-tunnel</string>
     <string name="thisApp">Это приложение на GitHub</string>
-    <string name="thisAppLink" translatable="false">https://github.com/DroidProger/ByeDpiLight-for-Android</string>
+    <string name="thisAppLink" translatable="false">https://github.com/DroidProger/ByeDpiLight</string>
     <string name="version">Версия</string>
     <string name="build">Сборка</string>
 </resources>
