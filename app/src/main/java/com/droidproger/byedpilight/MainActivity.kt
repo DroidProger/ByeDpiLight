@@ -1,6 +1,8 @@
 package com.droidproger.byedpilight
 
+import android.content.IntentFilter
 import android.content.pm.PackageManager.FEATURE_LEANBACK
+import android.net.ConnectivityManager
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -8,6 +10,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -32,7 +35,17 @@ class MainActivity : ComponentActivity() {
             dataModel.proxyPort = prefStore.proxyPort.first()
             dataModel.dnsIp = prefStore.dnsIp.first()
             dataModel.ipv6enabled = prefStore.ipv6Enable.first()
+            dataModel.mobile = prefStore.autoStartMobile.first()
+            dataModel.anyConn = prefStore.autoStartOther.first()
         }
+        val filter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
+        ContextCompat.registerReceiver(
+            applicationContext,
+            dataModel.receiver,
+            filter,
+            ContextCompat.RECEIVER_NOT_EXPORTED
+        )
+        //this.registerReceiver(dataModel.receiver,filter)
         enableEdgeToEdge()
         setContent {
             if (packageManager.hasSystemFeature(FEATURE_LEANBACK)){

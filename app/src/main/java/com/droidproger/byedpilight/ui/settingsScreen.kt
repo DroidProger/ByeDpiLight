@@ -31,7 +31,6 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -72,6 +71,7 @@ var tempDns = dataModel.dnsIp
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(navController: NavController, prefStore: PrefStore){
+
     val bottomPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
     Column (
         Modifier
@@ -160,7 +160,7 @@ fun Settings(prefStore: PrefStore){
             }
         }
         ByeDpiSettings(prefStore,scope)
-// ----------------
+        // ----------------
         Row(
             Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center,
@@ -208,6 +208,54 @@ fun Settings(prefStore: PrefStore){
             }
         }
         Tun2socksSettings(prefStore,scope)
+        // --------------
+        Row(
+            Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center,
+            Alignment.CenterVertically
+        ) {
+            Canvas(
+                Modifier
+                    //.size(width = 100.dp, height = 20.dp)
+                    .weight(0.2f)
+                    .padding(start = 10.dp)
+            ) {
+                val height = size.height
+                val width = size.width
+                drawLine(
+                    start = Offset(x = 0f, y = height / 2),
+                    end = Offset(x = width, y = height / 2),
+                    color = colorScheme.primary,
+                    strokeWidth = 6f,
+                    alpha = 0.5f
+                )
+            }
+            Text(
+                text = stringResource(R.string.startDpiSettings),
+                Modifier
+                    .padding(start = 10.dp, top = 10.dp, end = 10.dp, bottom = 10.dp)
+                    .weight(0.8f)
+                    .wrapContentSize(),
+                color = colorScheme.primary, textAlign = TextAlign.Center
+            )
+            Canvas(
+                Modifier
+                    //.size(width = 100.dp, height = 20.dp)
+                    .weight(0.2f)
+                    .padding(end = 10.dp)
+            ) {
+                val height = size.height
+                val width = size.width
+                drawLine(
+                    start = Offset(x = 0f, y = height / 2),
+                    end = Offset(x = width, y = height / 2),
+                    color = colorScheme.primary,
+                    strokeWidth = 6f,
+                    alpha = 0.5f
+                )
+            }
+        }
+        AutoStartSettings(prefStore,scope)
     }
 }
 
@@ -402,6 +450,58 @@ fun Tun2socksSettings(prefStore: PrefStore, scope: CoroutineScope){
                 .padding(10.dp, 10.dp, 10.dp, 10.dp)
         )
     }
+}
+
+@Composable
+fun AutoStartSettings(prefStore: PrefStore, scope: CoroutineScope){
+    val context = LocalContext.current
+    Row(
+        Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.Center,
+        Alignment.CenterVertically
+    ) {
+        Text(
+            stringResource(R.string.startDpiOnMobile),
+            Modifier
+                .weight(1f)
+                .padding(10.dp, 10.dp, 10.dp, 10.dp)
+        )
+        Switch(
+            checked = dataModel.mobile,
+            onCheckedChange = {
+                dataModel.mobile = it
+                scope.launch {
+                    prefStore.saveAutoStartMobile(it)
+                }
+            },
+            Modifier
+                .padding(10.dp, 10.dp, 10.dp, 10.dp)
+        )
+    }
+    Row(
+        Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.Center,
+        Alignment.CenterVertically
+    ) {
+        Text(
+            stringResource(R.string.startDpiOnAnyConn),
+            Modifier
+                .weight(1f)
+                .padding(10.dp, 10.dp, 10.dp, 10.dp)
+        )
+        Switch(
+            checked = dataModel.anyConn,
+            onCheckedChange = {
+                dataModel.anyConn = it
+                scope.launch {
+                    prefStore.saveAutoStartOther(it)
+                }
+            },
+            Modifier
+                .padding(10.dp, 10.dp, 10.dp, 10.dp)
+        )
+    }
+
 }
 
 @Composable

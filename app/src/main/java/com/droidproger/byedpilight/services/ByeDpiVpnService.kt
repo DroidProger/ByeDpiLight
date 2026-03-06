@@ -16,6 +16,7 @@ import com.droidproger.byedpilight.data.START_ACTION
 import com.droidproger.byedpilight.data.STOP_ACTION
 import com.droidproger.byedpilight.data.ServiceStatus
 import com.droidproger.byedpilight.dataModel
+import com.droidproger.byedpilight.utility.MSTOP
 import com.droidproger.byedpilight.utility.createConnectionNotification
 import com.droidproger.byedpilight.utility.registerNotificationChannel
 import com.droidproger.byedpilight.utility.shellSplit
@@ -58,9 +59,11 @@ class ByeDpiVpnService : LifecycleVpnService() {
                 lifecycleScope.launch { start() }
                 START_STICKY
             }
-
             STOP_ACTION -> {
                 lifecycleScope.launch { stop() }
+                    if (!dataModel.stoppedManually) { //
+                        dataModel.stoppedManually = intent.getBooleanExtra(MSTOP,false)
+                    }
                 START_NOT_STICKY
             }
 

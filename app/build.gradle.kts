@@ -12,8 +12,8 @@ android {
         applicationId = "com.droidproger.byedpilight"
         minSdk = 24
         targetSdk = 36
-        versionCode = 2
-        versionName = "1.1"
+        versionCode = 3
+        versionName = "1.2"
         setProperty("archivesBaseName","ByeDpiLight-$versionName")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -98,9 +98,9 @@ dependencies {
     val composeBom = platform("androidx.compose:compose-bom:2025.10.01")
     implementation(composeBom)
     // General compose dependencies.
-    implementation("androidx.activity:activity-compose:1.11.0")
-    implementation("androidx.compose.ui:ui-tooling-preview")
-    debugImplementation("androidx.compose.ui:ui-tooling")
+    implementation(libs.androidx.activity.compose.v1110)
+    implementation(libs.androidx.ui.tooling.preview)
+    debugImplementation(libs.androidx.ui.tooling)
     // Compose for TV dependencies.
     implementation("androidx.tv:tv-material:1.0.0")
 }

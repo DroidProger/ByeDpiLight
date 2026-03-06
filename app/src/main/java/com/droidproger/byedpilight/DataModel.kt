@@ -7,10 +7,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.droidproger.byedpilight.data.ServiceStatus
+import com.droidproger.byedpilight.utility.NetworkReceiver
 
 class DataModel: ViewModel() {
 
-
+    var stoppedManually = false//by mutableStateOf(false)
+    var anyConn by mutableStateOf(false)
+    var mobile by mutableStateOf(false)
     var textMinLines: Int = 3
     var isCmdEdit by mutableStateOf(false)
     var cmdLine by mutableStateOf("")
@@ -25,6 +28,8 @@ class DataModel: ViewModel() {
     fun getIsCmdEdit(): Boolean{
         return isCmdEdit
     }
+
+    val receiver = NetworkReceiver()
 
     fun setIsCmdEdit(isEdit: Boolean){
         isCmdEdit = isEdit

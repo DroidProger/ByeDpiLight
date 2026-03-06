@@ -163,13 +163,17 @@ fun MainButtons(context: Context){
         ElevatedButton(
             onClick = {
                 if (dataModel.serviceStatus == ServiceStatus.Connected){
+                    if (dataModel.mobile or dataModel.anyConn){
+                        dataModel.stoppedManually = true
+                    }
                     ServiceManager.stop(context)
                 }else{
+                    dataModel.stoppedManually = false
                     val intentPrepare = VpnService.prepare(context)
                     if (intentPrepare != null) {
                         vpnRegister.launch(intentPrepare)
                     } else {
-                        ServiceManager.start(context)//, Mode.VPN
+                        ServiceManager.start(context)
                     }
                 }
             },

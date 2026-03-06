@@ -19,6 +19,9 @@ class PrefStore(private val context: Context) {
         val proxyPortKey = intPreferencesKey("proxyPort")
         val dnsKey = stringPreferencesKey("dns")
         val ipv6key = booleanPreferencesKey("ipv6enable")
+
+        val mobKey = booleanPreferencesKey("autoStartMobile")
+        val otherKey = booleanPreferencesKey("autoStartOther")
     }
 
     val cmdLine: Flow<String> = context.dataStore.data.map{
@@ -55,5 +58,23 @@ class PrefStore(private val context: Context) {
     suspend fun saveIpv6enable(value: Boolean){
         context.dataStore.edit { preference ->
             preference[ipv6key] = value }
+    }
+
+    val autoStartMobile: Flow<Boolean> = context.dataStore.data.map {
+            preferences -> preferences[mobKey] ?: false
+    }
+
+    suspend fun saveAutoStartMobile(value: Boolean){
+        context.dataStore.edit { preference ->
+            preference[mobKey] = value }
+    }
+
+    val autoStartOther: Flow<Boolean> = context.dataStore.data.map {
+            preferences -> preferences[otherKey] ?: false
+    }
+
+    suspend fun saveAutoStartOther(value: Boolean){
+        context.dataStore.edit { preference ->
+            preference[otherKey] = value }
     }
 }

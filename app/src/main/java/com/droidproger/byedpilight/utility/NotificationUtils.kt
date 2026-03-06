@@ -13,7 +13,7 @@ import com.droidproger.byedpilight.MainActivity
 import com.droidproger.byedpilight.R
 import com.droidproger.byedpilight.data.STOP_ACTION
 
-
+const val MSTOP = "manuallyStopped"
 fun registerNotificationChannel(context: Context, id: String, @StringRes name: Int) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         val manager = context.getSystemService(NotificationManager::class.java) ?: return
@@ -47,7 +47,7 @@ fun createConnectionNotification(
                 PendingIntent.getService(
                     context,
                     0,
-                    Intent(context, service).setAction(STOP_ACTION),
+                    Intent(context, service).setAction(STOP_ACTION).putExtra(MSTOP,true),
                     PendingIntent.FLAG_IMMUTABLE,
                 )
             )
