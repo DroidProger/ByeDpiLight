@@ -1,3 +1,3 @@
 extern struct params default_params;
 
-int parse_args(int argc, char **argv);
+int _parse_args(int argc, char **argv);

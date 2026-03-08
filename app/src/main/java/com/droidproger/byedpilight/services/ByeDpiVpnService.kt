@@ -60,10 +60,10 @@ class ByeDpiVpnService : LifecycleVpnService() {
                 START_STICKY
             }
             STOP_ACTION -> {
+                if (intent.hasExtra(MSTOP)) { //
+                    dataModel.stoppedManually = intent.getBooleanExtra(MSTOP,false)
+                }
                 lifecycleScope.launch { stop() }
-                    if (!dataModel.stoppedManually) { //
-                        dataModel.stoppedManually = intent.getBooleanExtra(MSTOP,false)
-                    }
                 START_NOT_STICKY
             }
 

@@ -49,9 +49,9 @@ static struct desync_params *add_group(struct desync_params *prev)
     return dp;
 }
 
-extern const struct option options[49];
+extern const struct option options[49];//51 for next version
 
-int parse_args(int argc, char **argv)
+int _parse_args(int argc, char **argv)
 {
     int optc = sizeof(options)/sizeof(*options);
     for (int i = 0, e = optc; i < e; i++)
@@ -117,8 +117,8 @@ int parse_args(int argc, char **argv)
                 params.transparent = 1;
                 break;
 #endif
-/*
-#ifdef DAEMON
+
+/*#ifdef DAEMON
                 case 'D':
             daemonize = 1;
             break;
@@ -135,7 +135,7 @@ int parse_args(int argc, char **argv)
                 printf("%s\n", VERSION);
                 clear_params();
                 return 0;
-                */
+  */
             case 'i':
                 if (get_addr(optarg, &params.laddr) < 0)
                     invalid = 1;

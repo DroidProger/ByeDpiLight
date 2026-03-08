@@ -35,7 +35,7 @@ Java_com_droidproger_byedpilight_core_ByeDpiProxy_jniCreateSocketWithCommandLine
         (*env)->ReleaseStringUTFChars(env, arg, arg_str);
     }
 
-    int res = parse_args(argc, argv);
+    int res = _parse_args(argc, argv);
     if (res < 0) {
         uniperror("parse_args");
         return -1;

@@ -154,6 +154,9 @@ fun MainScreen(navController: NavController){
 fun MainButtons(context: Context){
     val vpnRegister = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {
         if (it.resultCode == RESULT_OK) {
+            if (dataModel.mobile or dataModel.anyConn){
+                dataModel.stoppedManually = true
+            }
             ServiceManager.start(context)
         } else {
             Toast.makeText(context, R.string.vpnPermissionDenied, Toast.LENGTH_SHORT).show()

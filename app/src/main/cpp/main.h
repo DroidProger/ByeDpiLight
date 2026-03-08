@@ -19,10 +19,12 @@ size_t parse_cform(char *buffer, size_t blen,
                    const char *str, size_t slen);
 
 struct mphdr *parse_hosts(char *buffer, size_t size);
+//int parse_hosts(struct mphdr *hdr, char *buffer, size_t size);
 
 int parse_offset(struct part *part, const char *str);
 
 struct mphdr *parse_ipset(char *buffer, size_t size);
+//int parse_ipset(struct mphdr *hdr, char *buffer, size_t size);
 
 bool ipv6_support(void);
 

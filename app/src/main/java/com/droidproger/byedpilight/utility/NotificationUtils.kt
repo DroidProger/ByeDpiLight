@@ -47,8 +47,11 @@ fun createConnectionNotification(
                 PendingIntent.getService(
                     context,
                     0,
-                    Intent(context, service).setAction(STOP_ACTION).putExtra(MSTOP,true),
-                    PendingIntent.FLAG_IMMUTABLE,
+                    Intent(context, service)
+                        .putExtra(MSTOP,true)
+                        .setAction(STOP_ACTION)
+                        ,
+                    PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT,
                 )
             )
             .setContentIntent(
