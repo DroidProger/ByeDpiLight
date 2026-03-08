@@ -6,8 +6,6 @@ import android.util.Log
 import androidx.core.content.ContextCompat
 import com.droidproger.byedpilight.data.START_ACTION
 import com.droidproger.byedpilight.data.STOP_ACTION
-import com.droidproger.byedpilight.dataModel
-import com.droidproger.byedpilight.utility.MSTOP
 
 object ServiceManager {
     private val TAG: String = ServiceManager::class.java.simpleName
