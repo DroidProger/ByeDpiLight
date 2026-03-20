@@ -2,7 +2,9 @@ package com.droidproger.byedpilight.ui
 
 
 import android.Manifest
+import android.app.Activity
 import android.app.Activity.RESULT_OK
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -61,6 +63,8 @@ import com.droidproger.byedpilight.R
 import com.droidproger.byedpilight.data.ServiceStatus
 import com.droidproger.byedpilight.dataModel
 import com.droidproger.byedpilight.ui.theme.ComposeAppTheme
+import com.droidproger.byedpilight.utility.checkReceiver
+import com.droidproger.byedpilight.utility.registerReceiver
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -473,6 +477,13 @@ fun AutoStartSettings(prefStore: PrefStore, scope: CoroutineScope){
                 scope.launch {
                     prefStore.saveAutoStartMobile(it)
                 }
+                if (dataModel.mobile){
+                    if (!dataModel.receiverRegistered){
+                        registerReceiver(context.applicationContext)
+                    }
+                }else{
+                    checkReceiver(context.applicationContext)
+                }
             },
             Modifier
                 .padding(10.dp, 10.dp, 10.dp, 10.dp)
@@ -495,6 +506,13 @@ fun AutoStartSettings(prefStore: PrefStore, scope: CoroutineScope){
                 dataModel.anyConn = it
                 scope.launch {
                     prefStore.saveAutoStartOther(it)
+                }
+                if (dataModel.anyConn){
+                    if (!dataModel.receiverRegistered){
+                        registerReceiver(context.applicationContext)
+                    }
+                }else{
+                    checkReceiver(context.applicationContext)
                 }
             },
             Modifier

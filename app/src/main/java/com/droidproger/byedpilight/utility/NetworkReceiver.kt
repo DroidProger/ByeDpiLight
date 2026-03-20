@@ -1,12 +1,15 @@
+
 package com.droidproger.byedpilight.utility
 
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.VpnService
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import com.droidproger.byedpilight.R
 import com.droidproger.byedpilight.data.ServiceStatus
 import com.droidproger.byedpilight.dataModel
@@ -62,4 +65,27 @@ fun stopDpi(context: Context){
     }else{
         dataModel.stoppedManually = false //reset to default
     }
+}
+
+fun registerReceiver(context: Context){
+    val filter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
+    ContextCompat.registerReceiver(
+        context,//applicationContext,
+        dataModel.receiver,
+        filter,
+        ContextCompat.RECEIVER_NOT_EXPORTED
+    )
+    dataModel.receiverRegistered = true
+    //this.registerReceiver(dataModel.receiver,filter)
+}
+
+fun checkReceiver(context: Context){
+    if (!dataModel.mobile && !dataModel.anyConn){
+        try {
+            context.unregisterReceiver(dataModel.receiver)
+        }catch (e:IllegalArgumentException){
+
+        }
+    }
+    dataModel.receiverRegistered = false
 }

@@ -1,5 +1,6 @@
 package com.droidproger.byedpilight
 
+import android.content.Context
 import android.content.IntentFilter
 import android.content.pm.PackageManager.FEATURE_LEANBACK
 import android.net.ConnectivityManager
@@ -20,6 +21,7 @@ import com.droidproger.byedpilight.ui.SettingsScreen
 import com.droidproger.byedpilight.ui.TvScreen
 import com.droidproger.byedpilight.ui.theme.ComposeAppTheme
 import com.droidproger.byedpilight.ui.theme.TvComposeTheme
+import com.droidproger.byedpilight.utility.registerReceiver
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
@@ -37,15 +39,12 @@ class MainActivity : ComponentActivity() {
             dataModel.ipv6enabled = prefStore.ipv6Enable.first()
             dataModel.mobile = prefStore.autoStartMobile.first()
             dataModel.anyConn = prefStore.autoStartOther.first()
+            if (dataModel.mobile or dataModel.anyConn){
+                if (!dataModel.receiverRegistered){
+                    registerReceiver(applicationContext)
+                }
+            }
         }
-        val filter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
-        ContextCompat.registerReceiver(
-            applicationContext,
-            dataModel.receiver,
-            filter,
-            ContextCompat.RECEIVER_NOT_EXPORTED
-        )
-        //this.registerReceiver(dataModel.receiver,filter)
         enableEdgeToEdge()
         setContent {
             if (packageManager.hasSystemFeature(FEATURE_LEANBACK)){
@@ -64,6 +63,7 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
 }
 
 @Composable

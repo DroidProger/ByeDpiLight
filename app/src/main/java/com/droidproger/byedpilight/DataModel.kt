@@ -25,11 +25,11 @@ class DataModel: ViewModel() {
     var ipv6enabled  by mutableStateOf(value = false)
     var showAbout by mutableStateOf(value = false)
     var showWarn by mutableStateOf(value = false)
+    val receiver = NetworkReceiver()
+    var receiverRegistered by mutableStateOf(value = false)
     fun getIsCmdEdit(): Boolean{
         return isCmdEdit
     }
-
-    val receiver = NetworkReceiver()
 
     fun setIsCmdEdit(isEdit: Boolean){
         isCmdEdit = isEdit
