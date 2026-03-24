@@ -12,7 +12,7 @@ android {
         applicationId = "com.droidproger.byedpilight"
         minSdk = 24
         targetSdk = 36
-        versionCode = 3
+        versionCode = 4
         versionName = "1.2"
         setProperty("archivesBaseName","ByeDpiLight-$versionName")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
